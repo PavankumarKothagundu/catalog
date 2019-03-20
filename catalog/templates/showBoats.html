@@ -1,0 +1,49 @@
+{% include 'nav.html' %}
+<div class="main">
+{% block content %}
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	        <div class="alert alert-success alert-dismissable animated fadeIn">
+	            {% for message in messages %}
+	            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+	            <p class="h4"><strong>{{ message }}</strong></p>
+	            {% endfor %}
+	        </div>
+	{% endif %}	    
+{% endwith %}
+{% if 'username' in session %}
+<button type="button" class="btn btn-warning" style="margin: 5px 0px 5px 25px;background-color:red;"><a href="{{url_for('addBoatDetails',pkname=kpk.name)}}" style="text-decoration: none;color:black;"><strong>Add New Boat</strong></a></button>
+
+{% endif %}
+<div class="row" style="margin: 10px;">
+{% for pke in pspk %}
+
+	<div class="col-sm-4 text-center" >
+		<div class="panel panel-primary">
+			<div class="panel-heading" style="background-color:orange;color:#EA0B92;font-family:Impact;">
+				<h4>{{ pke.name }}</h4>
+			</div>
+			<div class="panel-body text-center" style="color:red;background-color:black;">
+				<table>
+					<tr><th>YEAR</th><td>:</td><td><h5>{{ pke.year }}</h5></td></tr>
+					<tr><th>CAPACITY</th><td>:</td><td><h5>{{ pke.capacity }}</h5></td></tr>
+					<tr><th>AREA</th><td>:</td><td><h5>{{ pke.area }}</h5></td></tr>
+					<tr><th>VOLUME</th><td>:</td><td><h5>{{ pke.volume }}</h5></td></tr>
+					<tr><th>MOTOR TYPE</th><td>:</td><td><h5>{{ pke.motortype }}</h5></td></tr>
+					<tr><th>STORM POWER</th><td>:</td><td><h5>{{ pke.stormpower }}</h5></td></tr>
+					<tr><th>COLOR</th><td>:</td><td><h5>{{ pke.color }}</h5></td></tr>
+				</table>
+			</div>
+			{% if 'username' in session %}
+			<div class="panel-footer">
+					<button type="button" class="btn btn-success"><a href="{{ url_for('editBoat',pkid=kpk.id,pkename=pke.name) }}"style="text-decoration: none;color:white;">EDIT</a></button>
+					<button type="button" class="btn btn-danger"><a href="{{ url_for('deleteBoat',pkid=kpk.id,pkename=pke.name)}}"style="text-decoration: none;color:white;">DELETE</a></button>
+			</div>
+			{% endif %}	
+			
+		</div>
+	</div>
+{% endfor %}
+</div>
+{% endblock content %}
+</div>
